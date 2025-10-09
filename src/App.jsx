@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from './contexts/useAuth';
+import { useCart } from './contexts/CartContext';
 import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
+import Cart from './components/Cart.jsx';
 
 function App() {
   const { user, logout, isAuthenticated } = useAuth();
+  const { addToCart, getCartCount } = useCart();
   const [showRegister, setShowRegister] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const [products] = useState([
     {
       id: 1,
@@ -33,6 +37,11 @@ function App() {
     }
   ]);
 
+  const handleAddToCart = (product) => {
+    addToCart(product, 1);
+    alert(`${product.name} added to cart!`);
+  };
+
   // Show login/register if not authenticated
   if (!isAuthenticated) {
     return showRegister ? (
@@ -48,6 +57,39 @@ function App() {
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', paddingBottom: '20px', borderBottom: '2px solid #eee' }}>
         <h1>🛒 ShopEasy</h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <button
+            onClick={() => setShowCart(true)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              position: 'relative'
+            }}
+          >
+            🛒 Cart
+            {getCartCount() > 0 && (
+              <span style={{
+                position: 'absolute',
+                top: '-8px',
+                right: '-8px',
+                backgroundColor: '#dc3545',
+                color: 'white',
+                borderRadius: '50%',
+                width: '24px',
+                height: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+                fontWeight: 'bold'
+              }}>
+                {getCartCount()}
+              </span>
+            )}
+          </button>
           <span>Welcome, <strong>{user?.name}</strong>!</span>
           <span style={{ padding: '5px 10px', backgroundColor: user?.type === 'supplier' ? '#ffc107' : '#007bff', color: user?.type === 'supplier' ? 'black' : 'white', borderRadius: '15px', fontSize: '12px' }}>
             {user?.type === 'supplier' ? 'Supplier' : 'Customer'}
@@ -80,6 +122,7 @@ function App() {
               <p>{product.description}</p>
               <button 
                 disabled={product.stock === 0}
+                onClick={() => handleAddToCart(product)}
                 style={{
                   padding: '10px 15px',
                   backgroundColor: product.stock > 0 ? '#28a745' : '#6c757d',
@@ -96,6 +139,8 @@ function App() {
           ))}
         </div>
       </div>
+
+      {showCart && <Cart onClose={() => setShowCart(false)} />}
     </div>
   );
 }
