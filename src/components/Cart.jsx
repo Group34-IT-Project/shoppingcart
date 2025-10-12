@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCart } from '../contexts/CartContext';
 
-function Cart({ onClose }) {
+function Cart({ onClose, onCheckout }) {
   const { cart, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
 
   if (cart.length === 0) {
@@ -161,6 +161,7 @@ function Cart({ onClose }) {
         </button>
         
         <button
+          onClick={onCheckout}
           style={{
             width: '100%',
             padding: '12px',

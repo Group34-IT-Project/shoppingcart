@@ -4,12 +4,15 @@ import { useCart } from './contexts/CartContext';
 import Login from './components/Login.jsx';
 import Register from './components/Register.jsx';
 import Cart from './components/Cart.jsx';
+import Checkout from './components/Checkout.jsx';
 
 function App() {
   const { user, logout, isAuthenticated } = useAuth();
   const { addToCart, getCartCount } = useCart();
   const [showRegister, setShowRegister] = useState(false);
   const [showCart, setShowCart] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
+  const [orderConfirmation, setOrderConfirmation] = useState(null);
   const [products] = useState([
     {
       id: 1,
@@ -40,6 +43,20 @@ function App() {
   const handleAddToCart = (product) => {
     addToCart(product, 1);
     alert(`${product.name} added to cart!`);
+  };
+
+  const handleCheckout = () => {
+    setShowCart(false);
+    setShowCheckout(true);
+  };
+
+  const handleOrderSuccess = (order) => {
+    setShowCheckout(false);
+    setOrderConfirmation(order);
+  };
+
+  const handleCloseConfirmation = () => {
+    setOrderConfirmation(null);
   };
 
   // Show login/register if not authenticated
@@ -140,7 +157,55 @@ function App() {
         </div>
       </div>
 
-      {showCart && <Cart onClose={() => setShowCart(false)} />}
+      {showCart && <Cart onClose={() => setShowCart(false)} onCheckout={handleCheckout} />}
+      {showCheckout && <Checkout onClose={() => setShowCheckout(false)} onSuccess={handleOrderSuccess} />}
+      
+      {/* Order Confirmation Modal */}
+      {orderConfirmation && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 3000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '10px',
+            padding: '40px',
+            maxWidth: '500px',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: '60px', marginBottom: '20px' }}>✅</div>
+            <h2 style={{ color: '#28a745', marginBottom: '15px' }}>Order Placed Successfully!</h2>
+            <p style={{ marginBottom: '10px' }}>Order ID: <strong>#{orderConfirmation.id}</strong></p>
+            <p style={{ marginBottom: '20px' }}>Total: <strong>${orderConfirmation.total.toFixed(2)}</strong></p>
+            <p style={{ color: '#666', marginBottom: '30px' }}>
+              Your order is being processed. You will receive a confirmation email shortly.
+            </p>
+            <button
+              onClick={handleCloseConfirmation}
+              style={{
+                padding: '12px 30px',
+                backgroundColor: '#007bff',
+                color: 'white',
+                border: 'none',
+                borderRadius: '5px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                fontWeight: 'bold'
+              }}
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
