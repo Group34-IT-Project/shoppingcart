@@ -210,7 +210,7 @@ function App() {
             <div style={{ marginTop: '32px' }}>
               <h3 style={{ fontWeight: '600', marginBottom: '12px' }}>Price Range</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {['Under $50', '$50 - $100', '$100 - $200', 'Over $200'].map(range => (
+                {['Under R50', 'R50 - R100', 'R100 - R200', 'Over R200'].map(range => (
                   <label key={range} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                     <input type="checkbox" style={{ cursor: 'pointer' }} />
                     <span style={{ fontSize: '14px' }}>{range}</span>
@@ -400,7 +400,7 @@ function App() {
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span style={{ fontSize: '24px', fontWeight: 'bold', color: '#2563eb' }}>
-                        ${product.price}
+                        R{product.price}
                       </span>
                       <button
                         onClick={() => handleAddToCart(product)}
