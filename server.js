@@ -1,6 +1,5 @@
 // server.js
 const express = require('express');
-const connectDB = require('./database');
 
 const app = express();
 

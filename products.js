@@ -1,5 +1,4 @@
 import express from 'express';
-import Product from '../models/Product.js';
 
 const router = express.Router();
 
@@ -8,18 +7,19 @@ router.get('/test', (req, res) => {
   res.json({ message: 'Product door is working! 🎁' });
 });
 
-// Add new product - like adding a new toy to the toy box
+// Add new product - like adding a new toy to the toy box (mock response)
 router.post('/add', async (req, res) => {
   try {
-    const newProduct = new Product({
+    const mockProduct = {
+      id: Date.now(),
       name: req.body.name,
       price: req.body.price,
       category: req.body.category,
-      vendorId: req.body.vendorId
-    });
-    
-    const savedProduct = await newProduct.save();
-    res.json({ message: 'New toy added to box! 🎁', product: savedProduct });
+      vendorId: req.body.vendorId,
+      createdAt: new Date()
+    };
+
+    res.json({ message: 'New toy added to box! 🎁', product: mockProduct });
   } catch (error) {
     res.json({ message: 'Oops! Could not add toy 😢', error: error.message });
   }
