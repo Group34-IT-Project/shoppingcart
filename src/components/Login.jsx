@@ -9,13 +9,17 @@ const Login = ({ onSwitchToRegister }) => {
   });
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
-    const success = login(formData.email, formData.password);
-    if (!success) {
-      setError('Invalid email or password');
+    try {
+      const success = await login(formData.email, formData.password);
+      if (!success) {
+        setError('Invalid email or password');
+      }
+    } catch (error) {
+      setError('Login failed. Please try again.');
     }
   };
 
@@ -72,8 +76,12 @@ const Login = ({ onSwitchToRegister }) => {
           Login
         </button>
 
-        <button type="button" onClick={handleDemoLogin} style={{ width: '100%', padding: '12px', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '5px' }}>
+        <button type="button" onClick={handleDemoLogin} style={{ width: '100%', padding: '12px', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '5px', marginBottom: '10px' }}>
           Try Demo Account
+        </button>
+
+        <button type="button" onClick={() => setFormData({ email: 'group34@email.com', password: 'Group34ITProject' })} style={{ width: '100%', padding: '12px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px' }}>
+          Admin Login
         </button>
       </form>
 

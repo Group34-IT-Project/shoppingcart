@@ -21,19 +21,24 @@ app.get('/api/health', (req, res) => {
 // User routes
 app.get('/api/users', async (req, res) => {
   try {
-    // For now, return mock data - in production this would query MongoDB
-    const mockUsers = [
-      {
-        id: 1,
-        name: 'Demo User',
-        email: 'demo@example.com',
-        type: 'customer',
-        cart: [],
-        orders: []
-      }
-    ];
-    res.json(mockUsers);
+    const users = await User.find({});
+    // Convert MongoDB _id to id for frontend compatibility
+    const formattedUsers = users.map(user => ({
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      type: user.type,
+      cart: user.cart,
+      orders: user.orders,
+      businessName: user.businessName,
+      businessDescription: user.businessDescription,
+      supplierOrders: user.supplierOrders,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
+    }));
+    res.json(formattedUsers);
   } catch (error) {
+    console.error('Error fetching users:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -147,8 +152,20 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     console.log('Login attempt:', { email, password: '***' }); // Don't log password in production
 
+    // Check for admin login with specific credentials
+    if (email === 'group34@email.com' && password === 'Group34ITProject') {
+      const adminUser = {
+        id: 999,
+        name: 'Admin',
+        email: 'group34@email.com',
+        type: 'admin',
+        cart: [],
+        orders: []
+      };
+      res.json({ success: true, user: adminUser });
+    }
     // Mock authentication - in production this would validate against database
-    if (email === 'demo@example.com' && password === 'password') {
+    else if (email === 'demo@example.com' && password === 'password') {
       const user = {
         id: 1,
         name: 'Demo User',
@@ -170,16 +187,22 @@ app.post('/api/auth/login', async (req, res) => {
 app.post('/api/auth/register', async (req, res) => {
   try {
     const userData = req.body;
-    // Mock registration - in production this would save to database
-    const newUser = {
-      ...userData,
-      id: Date.now(),
-      createdAt: new Date().toISOString(),
-      cart: [],
-      orders: []
+    const user = new User(userData);
+    const savedUser = await user.save();
+
+    const formattedUser = {
+      id: savedUser._id.toString(),
+      name: savedUser.name,
+      email: savedUser.email,
+      type: savedUser.type,
+      createdAt: savedUser.createdAt,
+      cart: savedUser.cart,
+      orders: savedUser.orders
     };
-    res.json({ success: true, user: newUser });
+
+    res.status(201).json({ success: true, user: formattedUser });
   } catch (error) {
+    console.error('Registration error:', error);
     res.status(500).json({ error: error.message });
   }
 });

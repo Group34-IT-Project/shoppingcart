@@ -12,14 +12,29 @@
 - ✅ Supplier Inventory Management (CRUD)
 - ✅ Supplier Order Management
 - ✅ Analytics Dashboard for Suppliers
+- ✅ Admin Dashboard for User Management
 - ✅ Responsive Design
 
 ## 🛠️ Tech Stack
 - React + Vite
 - Context API for State Management
 - LocalStorage for Data Persistence
+- Node.js + Express Backend
+- MongoDB Database
 
 ## 👥 Quick Start
 ```bash
 npm install
 npm run dev
+```
+
+## 📊 Admin Features
+- User registration monitoring
+- User statistics and analytics
+- User management dashboard
+- Role-based access control
+
+## 📈 Project Goals
+- Onboard 50 vendors: Track vendor registrations and growth metrics
+- Provide comprehensive e-commerce solution for customers and suppliers
+- Enable seamless inventory and order management

@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   type: {
     type: String,
     required: true,
-    enum: ['customer', 'supplier'],
+    enum: ['customer', 'supplier', 'admin'],
     default: 'customer'
   },
   cart: [{

@@ -1,27 +1,25 @@
-# Supplier Dashboard Implementation TODO
+# Admin Dashboard Implementation TODO
 
-## Phase 1: Authentication & Role Management
-- [x] Fix AuthProvider inconsistencies and add supplier support
-- [x] Update RegisterForm to include role selection
-- [x] Fix RoleSelection component imports and functionality
+## Phase 1: Backend Updates for Admin Support
+- [x] Update User model to include 'admin' as valid type
+- [x] Modify /api/users route to fetch real users from MongoDB
+- [x] Add admin user creation logic (e.g., seed admin user)
 
-## Phase 2: Supplier Contexts
-- [x] Create SupplierContext for inventory management
-- [x] Create OrderContext for supplier order management
-- [x] Integrate contexts with AuthProvider
+## Phase 2: Frontend Admin Context
+- [x] Create AdminContext for managing admin data (user registrations, stats)
+- [x] Update AuthProvider to support 'admin' role
 
-## Phase 3: Role-Based Routing
-- [x] Update App.jsx for role-based routing (customer vs supplier views)
-- [x] Add supplier dashboard navigation
+## Phase 3: Admin Components
+- [x] Create AdminApp component (similar to SupplierApp)
+- [x] Create AdminDashboard component with user registration metrics
+- [x] Add user list view with registration dates, roles, etc.
 
-## Phase 4: Supplier Dashboard Enhancement
-- [x] Enhance InventoryView with CRUD operations
-- [x] Implement SupplierOrderView with order management
-- [x] Build AnalyticsView with real data
-- [x] Update SupplierApp with proper component integration
+## Phase 4: Routing and Integration
+- [x] Update App.jsx to route admin users to AdminApp
+- [x] Integrate AdminProvider in main.jsx
+- [x] Test admin login/registration flow
 
 ## Phase 5: Testing & Polish
-- [x] Test supplier registration flow
-- [x] Test role-based navigation
-- [x] Test supplier dashboard functionality
-- [x] Update README to reflect completed features
+- [x] Test admin dashboard functionality
+- [x] Verify user registration monitoring
+- [x] Update README with admin features

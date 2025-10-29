@@ -37,6 +37,10 @@ const AuthProvider = ({ children }) => {
         supplierOrders: [],
         businessName: userData.businessName || '',
         businessDescription: userData.businessDescription || ''
+      }),
+      // Admin-specific fields (none needed for now)
+      ...(userData.type === 'admin' && {
+        // Add any admin-specific fields here if needed
       })
     };
 
@@ -51,7 +55,20 @@ const AuthProvider = ({ children }) => {
     return newUser;
   };
 
-  const login = (email, password) => {
+  const login = async (email, password) => {
+    try {
+      // Try API login first (for admin and any real users)
+      const response = await apiService.login({ email, password });
+      if (response.success) {
+        setUser(response.user);
+        localStorage.setItem('shopEasy_currentUser', JSON.stringify(response.user));
+        return true;
+      }
+    } catch (error) {
+      console.log('API login failed, trying local fallback');
+    }
+
+    // Fallback to local users (for demo and registered users)
     const foundUser = users.find(u => u.email === email && u.password === password);
     if (foundUser) {
       setUser(foundUser);
@@ -83,10 +100,10 @@ const AuthProvider = ({ children }) => {
   const updateUser = (updatedData) => {
     const updatedUser = { ...user, ...updatedData };
     setUser(updatedUser);
-    
+
     const updatedUsers = users.map(u => u.id === user.id ? updatedUser : u);
     setUsers(updatedUsers);
-    
+
     localStorage.setItem('shopEasy_currentUser', JSON.stringify(updatedUser));
     localStorage.setItem('shopEasy_users', JSON.stringify(updatedUsers));
   };
@@ -101,16 +118,17 @@ const AuthProvider = ({ children }) => {
     updateUser,
     isAuthenticated: !!user,
     isSupplier: user?.type === 'supplier',
+    isAdmin: user?.type === 'admin',
     loading
   };
 
   if (loading) {
     return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh'
       }}>
         Loading...
       </div>

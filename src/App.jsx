@@ -8,6 +8,7 @@ import Register from './components/Register.jsx';
 import Cart from './components/Cart.jsx';
 import CustomerApp from './components/customer/CustomerApp.jsx';
 import SupplierApp from './components/supplier/SupplierApp.jsx';
+import AdminApp from './components/admin/AdminApp.jsx';
 import RoleSelection from './components/auth/RoleSelection.jsx';
 
 function App() {
@@ -56,6 +57,10 @@ function App() {
   // Role-based routing: show different apps based on user type
   if (user?.type === 'supplier') {
     return <SupplierApp activeTab={activeTab} setActiveTab={setActiveTab} />;
+  }
+
+  if (user?.type === 'admin') {
+    return <AdminApp activeTab={activeTab} setActiveTab={setActiveTab} />;
   }
 
   // Default to customer marketplace
