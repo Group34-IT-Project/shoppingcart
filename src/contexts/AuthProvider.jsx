@@ -29,17 +29,24 @@ const AuthProvider = ({ children }) => {
       type: userData.type || 'customer',
       createdAt: new Date().toISOString(),
       cart: [],
-      orders: []
+      orders: [],
+      // Supplier-specific fields
+      ...(userData.type === 'supplier' && {
+        inventory: [],
+        supplierOrders: [],
+        businessName: userData.businessName || '',
+        businessDescription: userData.businessDescription || ''
+      })
     };
-    
+
     const updatedUsers = [...users, newUser];
     setUsers(updatedUsers);
     localStorage.setItem('shopEasy_users', JSON.stringify(updatedUsers));
-    
+
     // Auto-login after registration
     setUser(newUser);
     localStorage.setItem('shopEasy_currentUser', JSON.stringify(newUser));
-    
+
     return newUser;
   };
 

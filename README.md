@@ -3,13 +3,16 @@
 ## 🚀 Live Demo
 [View Live Website](https://shoppingcart-git-main-group34-it-project.vercel.app)
 
-## ✨ Features
+##  Features
 - ✅ User Registration & Authentication
-- ✅ Customer & Supplier Accounts  
+- ✅ Customer & Supplier Accounts
 - ✅ Product Catalog with Stock Management
+- ✅ Shopping Cart with Add/Remove Items
+- ✅ Role-Based Dashboards (Customer & Supplier)
+- ✅ Supplier Inventory Management (CRUD)
+- ✅ Supplier Order Management
+- ✅ Analytics Dashboard for Suppliers
 - ✅ Responsive Design
-- 🚧 Shopping Cart (Coming Soon)
-- 🚧 Supplier Dashboard (Coming Soon)
 
 ## 🛠️ Tech Stack
 - React + Vite
