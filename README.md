@@ -1,6 +1,6 @@
 # 🛒 ShopEasy - E-Commerce Platform
 
-## 🚀 Live Demo
+## Live Demo
 [View Live Website](https://shoppingcart-git-main-group34-it-project.vercel.app)
 
 ##  Features
