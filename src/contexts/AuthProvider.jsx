@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
+import apiService from '../services/api';
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -7,18 +8,18 @@ const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Load users and current session
+    // Load users and current session from localStorage as fallback
     const savedUsers = localStorage.getItem('shopEasy_users');
     const currentUser = localStorage.getItem('shopEasy_currentUser');
-    
+
     if (savedUsers) {
       setUsers(JSON.parse(savedUsers));
     }
-    
+
     if (currentUser) {
       setUser(JSON.parse(currentUser));
     }
-    
+
     setLoading(false);
   }, []);
 
